@@ -10,6 +10,7 @@
 <script>
 import { db } from "@/main";
 import { collection, addDoc } from "firebase/firestore";
+import { mapActions } from "vuex";
 
 export default {
   props: {
@@ -38,7 +39,12 @@ export default {
       setTimeout(() => {
         this.isAdd = false;
       }, 1000);
+      this.getAllWords();
     },
+
+    ...mapActions({
+      getAllWords: "words/getAllWords",
+    }),
   },
 };
 </script>

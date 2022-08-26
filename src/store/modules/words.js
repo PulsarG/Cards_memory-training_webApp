@@ -20,8 +20,19 @@ export default {
     setWordsNormal(state, wn) {
       state.WordsNormal = wn;
     },
+    setWordsRarely(state, wr) {
+      state.WordsRarely = wr;
+    },
+    setWordsOften(state, wo) {
+      state.WordsOften = wo;
+    },
   },
   actions: {
+    getAllWords({ dispatch }) {
+      dispatch("getWordsNormal");
+      dispatch("getWordsRarely");
+      dispatch("getWordsOften");
+    },
     async getWordsNormal({ commit }) {
       try {
         const q = query(
@@ -36,6 +47,42 @@ export default {
           arr.push(a);
         });
         commit("setWordsNormal", arr);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async getWordsRarely({ commit }) {
+      try {
+        const q = query(
+          collection(db, store.state.login),
+          where("fr", "==", 1)
+        );
+        let arr = [];
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          let a = doc.data();
+          a.id = doc.id;
+          arr.push(a);
+        });
+        commit("setWordsRarely", arr);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async getWordsOften({ commit }) {
+      try {
+        const q = query(
+          collection(db, store.state.login),
+          where("fr", "==", 3)
+        );
+        let arr = [];
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          let a = doc.data();
+          a.id = doc.id;
+          arr.push(a);
+        });
+        commit("setWordsOften", arr);
       } catch (e) {
         console.log(e);
       }

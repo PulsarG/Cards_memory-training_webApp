@@ -20,6 +20,7 @@ import { db } from "@/main";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 import RegWindow from "@/components/RegWindow.vue";
+import { mapActions } from "vuex";
 
 export default {
   components: { RegWindow },
@@ -29,7 +30,7 @@ export default {
       enterPass: "",
 
       isShowReg: false,
-      
+
       items: [],
     };
   },
@@ -42,14 +43,14 @@ export default {
           where("pass", "==", this.enterPass),
           where("login", "==", this.enterLogin)
         );
-        
+
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           this.items.push(doc.data());
         });
-        
+
         if (this.items[0].isLogin) {
-          this.$store.commit('setAuth', true);
+          this.$store.commit("setAuth", true);
         }
       } catch (e) {
         console.log(e);
@@ -66,7 +67,7 @@ export default {
     LogOut() {
       this.enterLogin = "";
       this.enterPass = "";
-      this.$store.commit('setAuth', false);
+      this.$store.commit("setAuth", false);
       localStorage.removeItem("login");
       localStorage.removeItem("isLogin");
     },
@@ -78,6 +79,10 @@ export default {
     setLogin() {
       this.$store.commit("setLogin", this.enterLogin);
     },
+
+    ...mapActions({
+      getAllWords: "words/getAllWords",
+    }),
   },
 
   mounted() {
@@ -85,6 +90,7 @@ export default {
       this.enterLogin = localStorage.login;
       this.$store.commit("setAuth", localStorage.isLogin);
       this.setLogin();
+      this.getAllWords();
     }
   },
 };
