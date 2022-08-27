@@ -1,9 +1,9 @@
 <template>
   <div>
-    <button @click="getFreq">
+    <button class="btnCards" @click="getFreq">
       <h1>{{ fw }}</h1>
     </button>
-    <button @click="getFreq">
+    <button class="btnCards" @click="getFreq">
       <h1>{{ sw }}</h1>
     </button>
     <div>
@@ -11,9 +11,10 @@
     </div>
   </div>
   <div>
-    <button @click="setRareCard(this.id)" id="btnrare">Реже</button>
-    <button @click="setOftenCard(this.id)" id="btnoften">Чаще</button>
+    <button @click="setFreqForCard(this.id, -1)" id="btnrare">Реже</button>
+    <button @click="setFreqForCard(this.id, +1)" id="btnoften">Чаще</button>
   </div>
+  <button @click="setFreqForCard(this.id, -3)">Не показывать</button>
 </template>
 
 <script>
@@ -27,8 +28,8 @@ export default {
   },
   data() {
     return {
-      fw: "Hello",
-      sw: "Привет",
+      fw: "Click here to get started!",
+      sw: "Кликни сюда, чтобы начать!",
       fr: 0,
       id: "",
 
@@ -37,51 +38,44 @@ export default {
       lastWord: [],
 
       isReady: false,
+
+      one: 0,
+      two: 0,
+      three: 0,
     };
   },
 
   methods: {
-    async setRareCard(id) {
+    /* TEST(a) {
+      let newFr = this.fr + a;
+      if (newFr < 0) newFr = 0;
+      console.log(newFr);
+    }, */
+
+    async setFreqForCard(id, numForFr) {
       try {
+        let newFr = this.fr + numForFr;
+        if (newFr < 0) newFr = 0;
         await setDoc(doc(db, this.$store.state.login, id), {
           fw: this.fw,
           sw: this.sw,
-          fr: --this.fr,
+          fr: newFr,
         });
-        /* alert("Сохранено");
-          this.reloadChars(true); */
         this.showReadyText();
         this.getAllWords();
-        this.getFreq();
+        /* this.getFreq(); */
       } catch (e) {
-        alert(e);
-      }
-    },
-    async setOftenCard(id) {
-      try {
-        await setDoc(doc(db, this.$store.state.login, id), {
-          fw: this.fw,
-          sw: this.sw,
-          fr: ++this.fr,
-        });
-        /* alert("Сохранено");
-          this.reloadChars(true); */
-        this.showReadyText();
-        this.getAllWords();
-        this.getFreq();
-      } catch (e) {
-        alert(e);
+        console.log(e);
       }
     },
 
     getFreq() {
-      let r = Math.floor(Math.random() * this.frNumber.length);
+      let r = ~~(Math.random() * this.frNumber.length);
       this.selectWordsArrAftergetFreq(this.frNumber[r]);
-      console.log(this.frNumber[r]);
     },
 
     setRandomNum(arr) {
-      let r = Math.floor(Math.random() * arr.length);
+      let r = ~~(Math.random() * arr.length);
       return r;
     },
 
@@ -107,8 +101,9 @@ export default {
         this.sw = this.WordsNormal[r].sw;
         this.fr = this.WordsNormal[r].fr;
         this.lastWord = this.WordsNormal[r];
-
         this.id = this.WordsNormal[r].id;
+
+        this.two++;
       }
     },
 
@@ -122,6 +117,8 @@ export default {
         this.fr = this.WordsOften[r].fr;
         this.lastWord = this.WordsOften[r];
         this.id = this.WordsOften[r].id;
+
+        this.three++;
       }
     },
 
@@ -135,6 +132,8 @@ export default {
         this.fr = this.WordsRarely[r].fr;
         this.lastWord = this.WordsRarely[r];
         this.id = this.WordsRarely[r].id;
+
+        this.one++;
       }
     },
 
@@ -181,4 +180,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.btnCards {
+  width: 400px;
+  height: 100px;
+  background: none;
+  border: 1px solid black;
+}
+</style>
