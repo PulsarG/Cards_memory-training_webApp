@@ -14,7 +14,7 @@
         </button>
       </div>
       <div>
-        <p v-show="isReady">Готово</p>
+        <p v-show="$store.state.words.isReady">Готово</p>
       </div>
     </div>
     <div>
@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import { db } from "@/main";
-import { setDoc, doc, addDoc } from "firebase/firestore";
 import { mapActions } from "vuex";
 
 export default {
@@ -45,23 +43,11 @@ export default {
 
       lastWord: [],
 
-      isReady: false,
-
       indexForOpenSecondCard: 1,
-
-      /* one: 0,
-      two: 0,
-      three: 0, */
     };
   },
 
   methods: {
-    /* TEST(a) {
-      let newFr = this.fr + a;
-      if (newFr < 0) newFr = 0;
-      console.log(newFr);
-    }, */
-
     openSecondCard() {
       let btn = document.getElementById("seconbtncard");
       if (!this.indexForOpenSecondCard) {
@@ -75,20 +61,10 @@ export default {
     },
 
     async setFreqForCard(id, numForFr) {
-      try {
-        let newFr = this.fr + numForFr;
-        if (newFr < 0) newFr = 0;
-        await setDoc(doc(db, this.$store.state.login, id), {
-          fw: this.fw,
-          sw: this.sw,
-          fr: newFr,
-        });
-        this.showReadyText();
-        this.getAllWords();
-        /* this.getFreq(); */
-      } catch (e) {
-        console.log(e);
-      }
+      this.$store.dispatch("words/setFreq", {
+        word: { fw: this.fw, sw: this.sw, fr: this.fr, id: id },
+        numForFr: numForFr,
+      });
     },
 
     getFreq() {
@@ -181,6 +157,9 @@ export default {
     WordsRarely() {
       return this.$store.state.words.WordsRarely;
     },
+    /* isReady() {
+      return this.$store.state.words.isReady;
+    }, */
   },
 
   watch: {

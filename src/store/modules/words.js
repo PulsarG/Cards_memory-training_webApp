@@ -4,8 +4,8 @@ import {
   query,
   where,
   getDocs,
-  /* setDoc,
-  doc, */
+  setDoc,
+  doc,
 } from "firebase/firestore";
 import store from "@/store/store";
 
@@ -15,20 +15,31 @@ export default {
     WordsNormal: [],
     WordsOften: [],
     WordsHided: [],
+    isReady: false,
   }),
   getters: {},
   mutations: {
     setWordsNormal(state, wn) {
+      
       state.WordsNormal = wn;
     },
     setWordsRarely(state, wr) {
+      
       state.WordsRarely = wr;
     },
     setWordsOften(state, wo) {
+      
       state.WordsOften = wo;
     },
-    setWordsHided(state, wo) {
-      state.WordsHided = wo;
+    setWordsHided(state, wh) {
+      
+      state.WordsHided = wh;
+    },
+    setIsReady(state) {
+      state.isReady = true;
+      setTimeout(() => {
+        state.isReady = false;
+      }, 1000);
     },
   },
   actions: {
@@ -106,6 +117,22 @@ export default {
           arr.push(a);
         });
         commit("setWordsHided", arr);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    async setFreq({ state, commit, dispatch }, a) {
+      try {
+        let newFr = a.word.fr + a.numForFr;
+        if (newFr < 0) newFr = 0;
+        await setDoc(doc(db, store.state.login, a.word.id), {
+          fw: a.word.fw,
+          sw: a.word.sw,
+          fr: newFr,
+        });
+        commit("setIsReady");
+        dispatch("getAllWords");
       } catch (e) {
         console.log(e);
       }

@@ -10,7 +10,7 @@
           </p>
         </div>
         <p>Часто</p>
-        <button>Убрать</button>
+        <button @click="setFreq(word, -3)">Убрать</button>
       </div>
 
       <div v-for="word in WordsNormal" :key="word.id" class="list">
@@ -54,6 +54,11 @@
 
 <script>
 export default {
+  methods: {
+    setFreq(word, numForFr) {
+      this.$store.dispatch('words/setFreq', {word: word, numForFr: numForFr})
+    },
+  },
   computed: {
     WordsNormal() {
       return this.$store.state.words.WordsNormal;
