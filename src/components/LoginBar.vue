@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mainloginbar">
     <div v-show="!$store.state.isAuth">
       <reg-window v-model:isShowReg="isShowReg"></reg-window>
       <input type="text" placeholder="login" v-model="enterLogin" />
@@ -8,7 +8,7 @@
       <button @click="OpenReg">Регистрация</button>
     </div>
 
-    <div v-show="$store.state.isAuth">
+    <div class="loginbarafterlogin" v-show="$store.state.isAuth">
       <h4>{{ $store.state.login }}</h4>
       <button @click="LogOut">Выйти</button>
     </div>
@@ -30,37 +30,35 @@ export default {
       enterPass: "",
 
       isShowReg: false,
-
-      items: [],
     };
   },
 
   methods: {
     async LogIn() {
+      let items = [];
       try {
         const q = query(
           collection(db, "User"),
           where("pass", "==", this.enterPass),
           where("login", "==", this.enterLogin)
         );
-
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          this.items.push(doc.data());
+          items.push(doc.data());
         });
 
-        if (this.items[0].isLogin) {
+        if (items[0].isLogin) {
           this.$store.commit("setAuth", true);
         }
       } catch (e) {
         console.log(e);
+        alert("Не верные данные");
       }
-      if (this.items[0].isLogin) {
-        localStorage.login = this.items[0].login;
+      if (items[0].isLogin) {
+        localStorage.login = items[0].login;
         localStorage.isLogin = true;
         this.setLogin();
-      } else {
-        alert("Не верные данные");
+        this.getAllWords();
       }
     },
 
@@ -96,4 +94,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.mainloginbar {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.loginbarafterlogin {
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+</style>

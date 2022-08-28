@@ -1,6 +1,5 @@
 <template>
   <div>
-    <login-bar></login-bar>
     <two-cards></two-cards>
     <add-words></add-words>
   </div>
@@ -9,10 +8,9 @@
 <script>
 import AddWords from "@/components/AddWords.vue";
 import TwoCards from "@/components/TwoCards.vue";
-import LoginBar from "@/components/LoginBar.vue";
 
 export default {
-  components: { AddWords, TwoCards, LoginBar },
+  components: { AddWords, TwoCards },
 
   data() {
     return {

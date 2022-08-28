@@ -14,6 +14,7 @@ export default {
     Wordsrarely: [],
     WordsNormal: [],
     WordsOften: [],
+    WordsHided: [],
   }),
   getters: {},
   mutations: {
@@ -26,12 +27,16 @@ export default {
     setWordsOften(state, wo) {
       state.WordsOften = wo;
     },
+    setWordsHided(state, wo) {
+      state.WordsHided = wo;
+    },
   },
   actions: {
     getAllWords({ dispatch }) {
       dispatch("getWordsNormal");
       dispatch("getWordsRarely");
       dispatch("getWordsOften");
+      dispatch("getWordsHided");
     },
     async getWordsNormal({ commit }) {
       try {
@@ -83,6 +88,24 @@ export default {
           arr.push(a);
         });
         commit("setWordsOften", arr);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async getWordsHided({ commit }) {
+      try {
+        const q = query(
+          collection(db, store.state.login),
+          where("fr", "==", 0)
+        );
+        let arr = [];
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          let a = doc.data();
+          a.id = doc.id;
+          arr.push(a);
+        });
+        commit("setWordsHided", arr);
       } catch (e) {
         console.log(e);
       }

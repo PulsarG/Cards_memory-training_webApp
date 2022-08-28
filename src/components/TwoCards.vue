@@ -1,20 +1,28 @@
 <template>
-  <div>
-    <button class="btnCards" @click="getFreq">
-      <h1>{{ fw }}</h1>
-    </button>
-    <button class="btnCards" @click="getFreq">
-      <h1>{{ sw }}</h1>
-    </button>
+  <div class="maindivtwocards">
     <div>
-      <p v-show="isReady">Готово</p>
+      <div class="twocardsbtns">
+        <button class="btnCards" @click="getFreq">
+          <h1>{{ fw }}</h1>
+        </button>
+        <button
+          class="btnCards secondcard"
+          @click="openSecondCard"
+          id="seconbtncard"
+        >
+          <h1>{{ sw }}</h1>
+        </button>
+      </div>
+      <div>
+        <p v-show="isReady">Готово</p>
+      </div>
     </div>
+    <div>
+      <button @click="setFreqForCard(this.id, -1)" id="btnrare">Реже</button>
+      <button @click="setFreqForCard(this.id, +1)" id="btnoften">Чаще</button>
+    </div>
+    <button @click="setFreqForCard(this.id, -3)">Не показывать</button>
   </div>
-  <div>
-    <button @click="setFreqForCard(this.id, -1)" id="btnrare">Реже</button>
-    <button @click="setFreqForCard(this.id, +1)" id="btnoften">Чаще</button>
-  </div>
-  <button @click="setFreqForCard(this.id, -3)">Не показывать</button>
 </template>
 
 <script>
@@ -39,9 +47,11 @@ export default {
 
       isReady: false,
 
-      one: 0,
+      indexForOpenSecondCard: 1,
+
+      /* one: 0,
       two: 0,
-      three: 0,
+      three: 0, */
     };
   },
 
@@ -51,6 +61,18 @@ export default {
       if (newFr < 0) newFr = 0;
       console.log(newFr);
     }, */
+
+    openSecondCard() {
+      let btn = document.getElementById("seconbtncard");
+      if (!this.indexForOpenSecondCard) {
+        btn.style.background = "white";
+        ++this.indexForOpenSecondCard;
+      } else {
+        btn.style.background = "black";
+        this.getFreq();
+        --this.indexForOpenSecondCard;
+      }
+    },
 
     async setFreqForCard(id, numForFr) {
       try {
@@ -181,10 +203,27 @@ export default {
 </script>
 
 <style>
+.maindivtwocards {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: auto;
+  padding-top: 5px;
+}
+
+.twocardsbtns {
+  display: flex;
+  flex-direction: column;
+}
+
 .btnCards {
   width: 400px;
   height: 100px;
   background: none;
   border: 1px solid black;
+  margin-top: 3px;
+}
+
+.secondcard {
 }
 </style>

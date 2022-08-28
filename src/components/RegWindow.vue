@@ -76,5 +76,7 @@ export default {
   min-width: 300px;
   padding: 20px;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
 </style>

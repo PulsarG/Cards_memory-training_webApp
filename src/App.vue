@@ -1,17 +1,18 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <MainPage msg="Welcome to Your Vue.js App"/>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <login-bar></login-bar>
+  <div class="navbar">
+    <button @click="$router.push('/')">Карточки</button>
+    <button @click="$router.push('/list')">Список</button>
+  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-import MainPage from './components/MainPage.vue'
-
+import LoginBar from "@/components/LoginBar.vue";
 export default {
-  name: 'App',
-  components: {
-    MainPage
-  }
-}
+  components: { LoginBar },
+};
 </script>
 
 <style>
