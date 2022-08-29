@@ -6,6 +6,7 @@ import {
   getDocs,
   setDoc,
   doc,
+  deleteDoc,
 } from "firebase/firestore";
 import store from "@/store/store";
 
@@ -148,6 +149,10 @@ export default {
         console.log(e);
         console.log("5");
       }
+    },
+
+    async deleteCard({ state }, word) {
+      await deleteDoc(doc(db, store.state.login, word.id));
     },
   },
   namespaced: true,

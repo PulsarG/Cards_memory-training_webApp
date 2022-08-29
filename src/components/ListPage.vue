@@ -21,53 +21,6 @@
         <p v-show="word.fr === 1" style="color: orange">Редко</p>
         <button @click="setFreq(word, -3)">Убрать</button>
       </div>
-      <!-- <div
-        v-for="word in WordsOften"
-        :key="word.id"
-        class="list"
-        v-show="showNormalList"
-      >
-        <div class="listword">
-          <p>
-            {{ word.fw }} <br />
-            {{ word.sw }}
-          </p>
-        </div>
-        <p style="color: blue">Часто</p>
-        <button @click="setFreq(word, -3)">Убрать</button>
-      </div>
-
-      <div
-        v-for="word in WordsNormal"
-        :key="word.id"
-        class="list"
-        v-show="showNormalList"
-      >
-        <div class="listword">
-          <p>
-            {{ word.fw }} <br />
-            {{ word.sw }}
-          </p>
-        </div>
-        <p style="color: green">Обычно</p>
-        <button @click="setFreq(word, -3)">Убрать</button>
-      </div>
-
-      <div
-        v-for="word in WordsRarely"
-        :key="word.id"
-        class="list"
-        v-show="showNormalList"
-      >
-        <div class="listword">
-          <p>
-            {{ word.fw }} <br />
-            {{ word.sw }}
-          </p>
-        </div>
-        <p style="color: orangered">Редко</p>
-        <button @click="setFreq(word, -3)">Убрать</button>
-      </div> -->
     </div>
 
     <div>
@@ -87,7 +40,7 @@
             {{ word.sw }}
           </p>
         </div>
-        <button>Удалить</button>
+        <button @click="deleteCard(word)">Удалить</button>
       </div>
     </div>
   </div>
@@ -122,7 +75,11 @@ export default {
       this.$store.dispatch("words/setFreq", { word: word, numForFr: numForFr });
       setTimeout(() => {
         this.setWordList();
-      }, 500);
+      }, 1000);
+    },
+    deleteCard(word) {
+      this.$store.dispatch("words/deleteCard", word);
+      this.$store.dispatch("words/getWordsHided");
     },
     setWordList() {
       this.WordsList.length = 0;
@@ -131,26 +88,10 @@ export default {
       this.WordsList.push(...this.$store.state.words.WordsRarely);
     },
   },
-  /* computed: {
-    WordsNormal() {
-      return this.$store.state.words.WordsNormal;
-    },
-    WordsOften() {
-      return this.$store.state.words.WordsOften;
-    },
-    WordsRarely() {
-      return this.$store.state.words.WordsRarely;
-    },
-
-    WordsHided() {
-      return this.$store.state.words.WordsHided;
-    },
-  }, */
-
   mounted() {
     setTimeout(() => {
       this.setWordList();
-    }, 500);
+    }, 1000);
   },
 };
 </script>
