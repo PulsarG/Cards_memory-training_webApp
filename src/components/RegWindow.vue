@@ -1,9 +1,9 @@
 <template>
   <div class="modalreg" v-show="isShowReg" @click.stop="hideModal">
     <div @click.stop class="modalcontent">
-      <input type="text" placeholder="login" v-model="login"/>
-      <input type="email" placeholder="email ( необязательно )" v-model="email" />
-      <input type="text" placeholder="password" v-model="pass"/>
+      <input type="text" placeholder="Login" v-model="login"/>
+      <input type="email" placeholder="Email ( необязательно )" v-model="email" />
+      <input type="text" placeholder="Password" v-model="pass"/>
       <button @click="RegUser">Зарегистрироваться</button>
       <p v-show="isReg">Регистрация прошла успешно</p>
     </div>
@@ -78,5 +78,13 @@ export default {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+}
+
+input{
+  height: 30px;
+}
+
+button {
+  margin-top: 10px;
 }
 </style>

@@ -11,28 +11,25 @@ import store from "@/store/store";
 
 export default {
   state: () => ({
-    Wordsrarely: [],
+    WordsRarely: [],
     WordsNormal: [],
     WordsOften: [],
     WordsHided: [],
     isReady: false,
+    countWords: 0,
   }),
   getters: {},
   mutations: {
     setWordsNormal(state, wn) {
-      
       state.WordsNormal = wn;
     },
     setWordsRarely(state, wr) {
-      
       state.WordsRarely = wr;
     },
     setWordsOften(state, wo) {
-      
       state.WordsOften = wo;
     },
     setWordsHided(state, wh) {
-      
       state.WordsHided = wh;
     },
     setIsReady(state) {
@@ -41,13 +38,23 @@ export default {
         state.isReady = false;
       }, 1000);
     },
+    setCountWords(state) {
+      state.countWords = 0;
+      state.countWords += state.WordsRarely.length;
+      state.countWords += state.WordsNormal.length;
+      state.countWords += state.WordsOften.length;
+      state.countWords += state.WordsHided.length;
+    },
   },
   actions: {
-    getAllWords({ dispatch }) {
+    getAllWords({ dispatch, commit }) {
       dispatch("getWordsNormal");
       dispatch("getWordsRarely");
       dispatch("getWordsOften");
       dispatch("getWordsHided");
+      setTimeout(() => {
+        commit("setCountWords");
+      }, 1000);
     },
     async getWordsNormal({ commit }) {
       try {

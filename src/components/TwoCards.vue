@@ -2,7 +2,7 @@
   <div class="maindivtwocards">
     <div>
       <div class="twocardsbtns">
-        <button class="btnCards" @click="getFreq">
+        <button class="btnCards" @click="openSecondCard">
           <h1>{{ fw }}</h1>
         </button>
         <button
@@ -17,7 +17,7 @@
         <p v-show="$store.state.words.isReady">Готово</p>
       </div>
     </div>
-    <div>
+    <div class="btnssetfr">
       <button @click="setFreqForCard(this.id, -1)" id="btnrare">Реже</button>
       <button @click="setFreqForCard(this.id, +1)" id="btnoften">Чаще</button>
     </div>
@@ -204,5 +204,12 @@ export default {
 }
 
 .secondcard {
+}
+
+.btnssetfr {
+  display: flex;
+  justify-content: space-around;
+  margin: 5px;
+  padding: 5px;
 }
 </style>

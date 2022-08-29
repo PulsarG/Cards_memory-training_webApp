@@ -2,14 +2,19 @@
   <div class="mainloginbar">
     <div v-show="!$store.state.isAuth">
       <reg-window v-model:isShowReg="isShowReg"></reg-window>
-      <input type="text" placeholder="login" v-model="enterLogin" />
-      <input type="text" placeholder="password" v-model="enterPass" />
+      <input type="text" placeholder="Login" v-model="enterLogin" />
+      <input type="text" placeholder="Password" v-model="enterPass" />
       <button @click="LogIn">Войти</button>
       <button @click="OpenReg">Регистрация</button>
     </div>
 
     <div class="loginbarafterlogin" v-show="$store.state.isAuth">
-      <h4>{{ $store.state.login }}</h4>
+      <h4>
+        {{ $store.state.login }}
+      </h4>
+      <div class="count">
+        <h4>(всего слов: {{ $store.state.words.countWords }} )</h4>
+      </div>
       <button @click="LogOut">Выйти</button>
     </div>
   </div>
@@ -49,6 +54,7 @@ export default {
 
         if (items[0].isLogin) {
           this.$store.commit("setAuth", true);
+          this.$store.commit("words/setCountWords");
         }
       } catch (e) {
         console.log(e);
@@ -107,5 +113,10 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.count {
+  display: flex;
+  flex-direction: row;
 }
 </style>

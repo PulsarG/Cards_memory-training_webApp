@@ -1,45 +1,69 @@
 <template>
   <div class="mainlistpage">
     <div>
-      <h4>Слова на карточках</h4>
-      <div v-for="word in WordsOften" :key="word.id" class="list">
+      <button class="btnlistshowwords" @click="hideNormalList">
+        Слова на карточках
+      </button>
+      <div
+        v-for="word in WordsOften"
+        :key="word.id"
+        class="list"
+        v-show="showNormalList"
+      >
         <div class="listword">
           <p>
             {{ word.fw }} <br />
             {{ word.sw }}
           </p>
         </div>
-        <p>Часто</p>
+        <p style="color: blue">Часто</p>
         <button @click="setFreq(word, -3)">Убрать</button>
       </div>
 
-      <div v-for="word in WordsNormal" :key="word.id" class="list">
+      <div
+        v-for="word in WordsNormal"
+        :key="word.id"
+        class="list"
+        v-show="showNormalList"
+      >
         <div class="listword">
           <p>
             {{ word.fw }} <br />
             {{ word.sw }}
           </p>
         </div>
-        <p>Обычно</p>
-        <button>Убрать</button>
+        <p style="color: green">Обычно</p>
+        <button @click="setFreq(word, -3)">Убрать</button>
       </div>
 
-      <div v-for="word in WordsRarely" :key="word.id" class="list">
+      <div
+        v-for="word in WordsRarely"
+        :key="word.id"
+        class="list"
+        v-show="showNormalList"
+      >
         <div class="listword">
           <p>
             {{ word.fw }} <br />
             {{ word.sw }}
           </p>
         </div>
-        <p>Редко</p>
-        <button>Убрать</button>
+        <p style="color: orangered">Редко</p>
+        <button @click="setFreq(word, -3)">Убрать</button>
       </div>
     </div>
 
     <div>
-      <h4>Скрытые слова</h4>
-      <div v-for="word in WordsHided" :key="word.id" class="list">
-        <button>Вернуть</button>
+      <button class="btnlisthidedwords" @click="hideHidedList">
+        Скрытые слова
+      </button>
+      <div
+        v-for="word in WordsHided"
+        :key="word.id"
+        class="list"
+        v-show="showHidedList"
+      >
+        <button @click="setFreq(word, 2)">Вернуть</button>
         <div class="listword">
           <p>
             {{ word.fw }} <br />
@@ -54,7 +78,27 @@
 
 <script>
 export default {
+  data() {
+    return {
+      showNormalList: true,
+      showHidedList: true,
+    };
+  },
   methods: {
+    hideNormalList() {
+      if (this.showNormalList) {
+        this.showNormalList = false;
+      } else {
+        this.showNormalList = true;
+      }
+    },
+    hideHidedList() {
+      if (this.showHidedList) {
+        this.showHidedList = false;
+      } else {
+        this.showHidedList = true;
+      }
+    },
     setFreq(word, numForFr) {
       this.$store.dispatch("words/setFreq", { word: word, numForFr: numForFr });
     },
@@ -117,7 +161,6 @@ export default {
   margin: auto;
   max-width: 1000px;
   justify-content: center;
-  
 }
 .list {
   border: 1px dotted black;
@@ -131,5 +174,18 @@ export default {
 .listword {
   display: flex;
   flex-direction: row;
+}
+
+.btnlistshowwords {
+  height: 30px;
+  width: auto;
+  background: none;
+  border: none;
+}
+.btnlisthidedwords {
+  height: 30px;
+  width: auto;
+  background: none;
+  border: none;
 }
 </style>
