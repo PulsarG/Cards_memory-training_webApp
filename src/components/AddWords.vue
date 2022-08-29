@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <input type="text" placeholder="Иностранное слово" v-model="fw" />
-    <input type="text" placeholder="Перевод" v-model="sw" />
-    <button @click="AddWords">Добавить</button>
-    <p v-show="isAdd">Добавлено</p>
+  <div class="mainaddwords">
+    
+      <input type="text" placeholder="Иностранное слово" v-model="fw" class="addint"/>
+    
+    
+      <input type="text" placeholder="Перевод" v-model="sw" class="addint"/>
+    
+      <button @click="AddWords">Добавить</button>
+      <p v-show="isAdd">Добавлено</p>
+    
   </div>
 </template>
 
@@ -49,4 +54,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.mainaddwords {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  width:  400px;
+  margin: auto;
+  padding-top: 15px;
+}
+.addint {
+  margin-top: 5px;
+  height: 30px;
+}
+</style>

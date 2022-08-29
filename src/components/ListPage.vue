@@ -56,7 +56,7 @@
 export default {
   methods: {
     setFreq(word, numForFr) {
-      this.$store.dispatch('words/setFreq', {word: word, numForFr: numForFr})
+      this.$store.dispatch("words/setFreq", { word: word, numForFr: numForFr });
     },
   },
   computed: {
@@ -78,10 +78,46 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 1000px) {
+  .mainlistpage {
+    flex-direction: row;
+  }
+  .list {
+    max-width: 500px;
+  }
+}
+@media (max-width: 999px) {
+  .mainlistpage {
+    flex-direction: column;
+    align-items: center;
+  }
+  .list {
+    max-width: 500px;
+  }
+}
+@media (max-width: 767px) {
+  .mainlistpage {
+    flex-direction: column;
+  }
+  .list {
+    max-width: 500px;
+  }
+}
+@media (max-width: 510px) {
+  .mainlistpage {
+    flex-direction: column;
+  }
+  .list {
+    max-width: 300px;
+  }
+}
+
 .mainlistpage {
   display: flex;
-  flex-direction: row;
+  margin: auto;
+  max-width: 1000px;
   justify-content: center;
+  
 }
 .list {
   border: 1px dotted black;

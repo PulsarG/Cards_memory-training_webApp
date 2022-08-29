@@ -65,6 +65,7 @@ export default {
         commit("setWordsNormal", arr);
       } catch (e) {
         console.log(e);
+        console.log("1");
       }
     },
     async getWordsRarely({ commit }) {
@@ -83,6 +84,7 @@ export default {
         commit("setWordsRarely", arr);
       } catch (e) {
         console.log(e);
+        console.log("2");
       }
     },
     async getWordsOften({ commit }) {
@@ -101,6 +103,7 @@ export default {
         commit("setWordsOften", arr);
       } catch (e) {
         console.log(e);
+        console.log("3");
       }
     },
     async getWordsHided({ commit }) {
@@ -119,6 +122,7 @@ export default {
         commit("setWordsHided", arr);
       } catch (e) {
         console.log(e);
+        console.log("4");
       }
     },
 
@@ -135,6 +139,7 @@ export default {
         dispatch("getAllWords");
       } catch (e) {
         console.log(e);
+        console.log("5");
       }
     },
   },

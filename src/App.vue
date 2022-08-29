@@ -1,5 +1,4 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
   <login-bar></login-bar>
   <div class="navbar">
     <button @click="$router.push('/')">Карточки</button>
