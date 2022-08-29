@@ -5,6 +5,23 @@
         Слова на карточках
       </button>
       <div
+        v-for="word in this.WordsList"
+        :key="word.id"
+        class="list"
+        v-show="showNormalList"
+      >
+        <div class="listword">
+          <p>
+            {{ word.fw }} <br />
+            {{ word.sw }}
+          </p>
+        </div>
+        <p v-show="word.fr === 3" style="color: blue">Часто</p>
+        <p v-show="word.fr === 2" style="color: green">Обычно</p>
+        <p v-show="word.fr === 1" style="color: orange">Редко</p>
+        <button @click="setFreq(word, -3)">Убрать</button>
+      </div>
+      <!-- <div
         v-for="word in WordsOften"
         :key="word.id"
         class="list"
@@ -50,7 +67,7 @@
         </div>
         <p style="color: orangered">Редко</p>
         <button @click="setFreq(word, -3)">Убрать</button>
-      </div>
+      </div> -->
     </div>
 
     <div>
@@ -58,7 +75,7 @@
         Скрытые слова
       </button>
       <div
-        v-for="word in WordsHided"
+        v-for="word in this.$store.state.words.WordsHided"
         :key="word.id"
         class="list"
         v-show="showHidedList"
@@ -82,6 +99,8 @@ export default {
     return {
       showNormalList: true,
       showHidedList: true,
+
+      WordsList: [],
     };
   },
   methods: {
@@ -101,9 +120,18 @@ export default {
     },
     setFreq(word, numForFr) {
       this.$store.dispatch("words/setFreq", { word: word, numForFr: numForFr });
+      setTimeout(() => {
+        this.setWordList();
+      }, 500);
+    },
+    setWordList() {
+      this.WordsList.length = 0;
+      this.WordsList.push(...this.$store.state.words.WordsOften);
+      this.WordsList.push(...this.$store.state.words.WordsNormal);
+      this.WordsList.push(...this.$store.state.words.WordsRarely);
     },
   },
-  computed: {
+  /* computed: {
     WordsNormal() {
       return this.$store.state.words.WordsNormal;
     },
@@ -117,6 +145,12 @@ export default {
     WordsHided() {
       return this.$store.state.words.WordsHided;
     },
+  }, */
+
+  mounted() {
+    setTimeout(() => {
+      this.setWordList();
+    }, 500);
   },
 };
 </script>
